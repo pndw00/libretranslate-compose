@@ -91,15 +91,15 @@ class LibreTranslator {
     static apiPath = "http://127.0.0.1:5000";
 
     translate = (text, from, to) => {
-        const form = new FormData();
-        form.append("q", text);
-        form.append("source", from);
-        form.append("target", to);
-        form.append("format", "text");
-
         return fetch(LibreTranslator.apiPath + "/translate", {
             method: "POST",
-            body: form,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                q: text,
+                source: from,
+                target: to,
+                format: "text",
+            }),
         })
             .then((r) => r.json())
             .then(({ translatedText }) => translatedText);
